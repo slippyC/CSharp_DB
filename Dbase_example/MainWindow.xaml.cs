@@ -24,12 +24,19 @@ namespace Dbase_example
     public partial class MainWindow : Window
     {
         private SQLConnector mLibrary;
+        private List<ArtistData> mArtists;
+        private List<AlbumData> mAlbums;
+        private List<TrackData> mTracks;
 
         public MainWindow()
         {
             InitializeComponent();
             this.mLibrary = new SQLConnector();
-            xArtists.ItemsSource = this.mLibrary.getArtists();          
+            this.mArtists = this.mLibrary.getArtists();
+            xArtists.ItemsSource = this.mArtists;
+            //this.mAlbums = this.mLibrary.getAlbums(this.mArtists[0].ArtistId);
+            //this.mTracks = this.mLibrary.getTracks(this.mAlbums[0].AlbumId);
+            //xGridTracks.ItemsSource = this.mTracks;
         }
 
         private void xExit_Click(object sender, RoutedEventArgs e)

@@ -16,56 +16,56 @@ namespace Dbase_example
 
         public SQLConnector()
         {
-            this.appPath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);                        
+            this.appPath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
         }
 
-        public List<object> getArtists()
+        public List<ArtistData> getArtists()
         {
-            this.mSqlite = this.openConn();            
-            List<object> ret = new List<object>();
+            this.mSqlite = this.openConn();
+            List<ArtistData> ret = new List<ArtistData>();
             SQLiteDataReader data = this.exeCommand("SELECT * from Artist");
             while (data.Read())
-            {                
-                ret.Add(new { Name = data.GetValue(1),  ArtistId = data.GetValue(0)});                
+            {
+                ret.Add(new ArtistData { Name = (string)data.GetValue(1), ArtistId = (int)data.GetValue(0) });
             }
             this.mSqlite.Close();
             return ret;
         }
 
-        public List<object> getAlbums(int ArtistId)
+        public List<AlbumData> getAlbums(int ArtistId)
         {
             this.mSqlite = this.openConn();
-            List<object> ret = new List<object>();
-            SQLiteDataReader data = this.exeCommand($"SELECT AlbumId,Title from Album where ArtistId = {ArtistId}");
+            List<AlbumData> ret = new List<AlbumData>();
+            SQLiteDataReader data = this.exeCommand("SELECT AlbumId,Title from Album where ArtistId = @ArtistId");
             while (data.Read())
             {
-                ret.Add(new
-                    { AlbumId = data.GetValue(0), Title = data.GetValue(1) }
+                ret.Add(new AlbumData
+                { AlbumId = (int)data.GetValue(0), Title = (string)data.GetValue(1) }
                 );
             }
             this.mSqlite.Close();
             return ret;
         }
 
-        public List<object> getTracks(int AlbumId)
+        public List<TrackData> getTracks(int AlbumId)
         {
             this.mSqlite = this.openConn();
-            List<object> ret = new List<object>();
-            SQLiteDataReader data = this.exeCommand($"SELECT TrackId,Name,Milliseconds from Track where AlbumId = {AlbumId}");
+            List<TrackData> ret = new List<TrackData>();
+            SQLiteDataReader data = this.exeCommand("SELECT TrackId,Name,Milliseconds from Track where AlbumId = @AlbumId");
 
             while (data.Read())
             {
-                ret.Add(new
-                { TrackId = data.GetValue(0), Name = data.GetValue(1), Time = data.GetValue(2) }
+                ret.Add(new TrackData
+                { TrackId = (int)data.GetValue(0), Name = (string)data.GetValue(1), Time = (int)data.GetValue(2) }
                 );
-            }               
+            }
             this.mSqlite.Close();
 
             return ret;
-        }      
+        }
 
         //Example of InnerJoin, not an efficient way to do it here. For example purposes only!!!
-        public string getGenre(int AlbumId,int TrackId)
+        public string getGenre(int AlbumId, int TrackId)
         {
             this.mSqlite = this.openConn();
             SQLiteDataReader data = this.exeCommand("SELECT Genre.Name FROM Genre " +
@@ -82,17 +82,36 @@ namespace Dbase_example
             this.mSqlite.Open();
             SQLiteCommand cmd = this.mSqlite.CreateCommand();
             cmd.CommandText = query;
-            return cmd.ExecuteReader();          
+            return cmd.ExecuteReader();
         }
 
         private SQLiteConnection openConn()
         {
-            if(this.mSqlite != null && this.mSqlite.State == System.Data.ConnectionState.Open)
+            if (this.mSqlite != null && this.mSqlite.State == System.Data.ConnectionState.Open)
             {
                 this.mSqlite.Close();
             }
-           
+
             return new SQLiteConnection($"Data Source={this.appPath}{this.pSep}Music.sqlite;Version=3");
         }
-    }    
+    }
+
+    public class ArtistData
+    {
+        public string Name { get; set; }
+        public int ArtistId { get; set; }
+    }
+
+    public class AlbumData
+    {
+        public int AlbumId { get; set; }
+        public string Title { get; set; }
+    }
+
+    public class TrackData
+    {
+        public int TrackId { get; set; }
+        public string Name { get; set; }
+        public int Time { get; set; }
+    }
 }
