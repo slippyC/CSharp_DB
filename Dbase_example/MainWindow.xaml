@@ -70,9 +70,16 @@
                             </RadialGradientBrush>
                         </StackPanel.Background>
                     </StackPanel>
-                    <DataGrid x:Name="xGridTracks" Grid.Row="1" AutoGenerateColumns="False" RowBackground="#FFDEEAFF" AlternatingRowBackground="#FFAFCCFF" HorizontalGridLinesBrush="{x:Null}" VerticalGridLinesBrush="{x:Null}" GridLinesVisibility="None">
+                    <DataGrid x:Name="xGridTracks" Grid.Row="1" AutoGenerateColumns="False" AlternatingRowBackground="#FFDEEAFF" RowBackground="#FFAFCCFF" HorizontalGridLinesBrush="{x:Null}" VerticalGridLinesBrush="{x:Null}" GridLinesVisibility="None">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding Name}" Header="Name"/>
+                            <DataGridTextColumn Binding="{Binding TrackId}" Header="Track" >
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="HorizontalAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding Name}" Header="Name" Width="*"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
