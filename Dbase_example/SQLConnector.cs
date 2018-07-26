@@ -26,7 +26,7 @@ namespace Dbase_example
             SQLiteDataReader data = this.exeCommand("SELECT * from Artist");
             while (data.Read())
             {
-                ret.Add(new ArtistData { Name = (string)data.GetValue(1), ArtistId = (int)data.GetValue(0) });
+                ret.Add(new ArtistData { Name = (string)data.GetValue(1), ArtistId = data.GetInt32(0) });
             }
             this.mSqlite.Close();
             return ret;
@@ -36,11 +36,11 @@ namespace Dbase_example
         {
             this.mSqlite = this.openConn();
             List<AlbumData> ret = new List<AlbumData>();
-            SQLiteDataReader data = this.exeCommand("SELECT AlbumId,Title from Album where ArtistId = @ArtistId");
+            SQLiteDataReader data = this.exeCommand($"SELECT AlbumId,Title from Album where ArtistId = {ArtistId}");
             while (data.Read())
             {
                 ret.Add(new AlbumData
-                { AlbumId = (int)data.GetValue(0), Title = (string)data.GetValue(1) }
+                { AlbumId = data.GetInt32(0), Title = (string)data.GetValue(1) }
                 );
             }
             this.mSqlite.Close();
@@ -51,12 +51,12 @@ namespace Dbase_example
         {
             this.mSqlite = this.openConn();
             List<TrackData> ret = new List<TrackData>();
-            SQLiteDataReader data = this.exeCommand("SELECT TrackId,Name,Milliseconds from Track where AlbumId = @AlbumId");
+            SQLiteDataReader data = this.exeCommand($"SELECT TrackId,Name,Milliseconds from Track where AlbumId = {AlbumId}");
 
             while (data.Read())
             {
                 ret.Add(new TrackData
-                { TrackId = (int)data.GetValue(0), Name = (string)data.GetValue(1), Time = (int)data.GetValue(2) }
+                { TrackId = data.GetInt32(0), Name = (string)data.GetValue(1), Time = data.GetInt32(2) }
                 );
             }
             this.mSqlite.Close();

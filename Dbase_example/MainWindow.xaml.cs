@@ -32,13 +32,12 @@ namespace Dbase_example
         {
             InitializeComponent();
             this.mLibrary = new SQLConnector();
-            this.mArtists = this.mLibrary.getArtists();
+            mArtists = this.mLibrary.getArtists();
             xArtists.ItemsSource = this.mArtists;
-            //this.mAlbums = this.mLibrary.getAlbums(this.mArtists[0].ArtistId);
-            //this.mTracks = this.mLibrary.getTracks(this.mAlbums[0].AlbumId);
-            //xGridTracks.ItemsSource = this.mTracks;
+            this.mAlbums = this.mLibrary.getAlbums(this.mArtists[0].ArtistId);
+            this.mTracks = this.mLibrary.getTracks(this.mAlbums[0].AlbumId);
+            xGridTracks.ItemsSource = this.mTracks;
         }
-
         private void xExit_Click(object sender, RoutedEventArgs e)
         {
             Close();
