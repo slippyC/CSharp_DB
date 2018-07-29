@@ -34,8 +34,9 @@ namespace Dbase_example
             this.mLibrary = new SQLConnector();
             mArtists = this.mLibrary.getArtists();
             xArtists.ItemsSource = this.mArtists;
-            this.mAlbums = this.mLibrary.getAlbums(this.mArtists[0].ArtistId);
+            this.mAlbums = this.mLibrary.getAlbums(this.mArtists[0].ArtistId);            
             this.mTracks = this.mLibrary.getTracks(this.mAlbums[0].AlbumId);
+            xAlbums.ItemsSource = this.mAlbums;
             xGridTracks.ItemsSource = this.mTracks;
         }
         private void xExit_Click(object sender, RoutedEventArgs e)

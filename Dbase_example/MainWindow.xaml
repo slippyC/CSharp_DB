@@ -5,7 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         x:Class="Dbase_example.MainWindow"
         mc:Ignorable="d"
-        Title="Database Example C#" Height="450" Width="800">
+        Title="Database Example C#" Height="450" Width="800" WindowState="Maximized">
+    <Window.Resources>
+        <Style x:Key="GridRows" TargetType="DataGridRow">
+            <Setter Property="FontWeight" Value="Normal" />
+            <Setter Property="FontSize" Value="12"  />          
+        </Style>
+    </Window.Resources>
+
+
     <Grid Margin="0,0,0,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="25" />
@@ -27,7 +35,7 @@
 
         <Grid Margin="0,0,0,0" Grid.Row="1" Grid.Column="0" Background="White">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" MaxWidth="300" />
                 <ColumnDefinition Width="3*" />
             </Grid.ColumnDefinitions>
 
@@ -35,6 +43,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="50" />
                     <RowDefinition />
+                    <RowDefinition MaxHeight="300" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="50"/>
@@ -48,10 +57,25 @@
                     </TextBox>
                 </Border>
 
-                <DataGrid x:Name="xArtists" Grid.Row="1" Grid.ColumnSpan="2" BorderBrush="{x:Null}" AutoGenerateColumns="False" AlternatingRowBackground="#FFDEEAFF" VerticalGridLinesBrush="#FFF3F3F3" HorizontalGridLinesBrush="{x:Null}" RowBackground="#FFAFCCFF" >
+                <DataGrid x:Name="xArtists" RowStyle="{StaticResource GridRows}" Grid.Row="1" Grid.ColumnSpan="2" BorderBrush="{x:Null}" AutoGenerateColumns="False" AlternatingRowBackground="#FFDEEAFF" VerticalGridLinesBrush="#FFF3F3F3" HorizontalGridLinesBrush="{x:Null}" RowBackground="#FFAFCCFF" IsReadOnly="True" FontSize="16" >
+                    
                     <DataGrid.Columns>
                         <DataGridTextColumn  Binding="{Binding Name}" Header="Artists" Width="*" />
                     </DataGrid.Columns>
+                    
+                   
+                    
+                </DataGrid>
+                <DataGrid x:Name="xAlbums" Grid.Row="2" Grid.ColumnSpan="2" BorderBrush="{x:Null}" AutoGenerateColumns="False" AlternatingRowBackground="#FFDEEAFF" VerticalGridLinesBrush="#FFF3F3F3" HorizontalGridLinesBrush="{x:Null}" RowBackground="#FFAFCCFF" IsReadOnly="True" FontSize="16">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn  Binding="{Binding Title}" Header="Album Title" Width="*" />
+                    </DataGrid.Columns>
+                    <DataGrid.RowStyle>
+                        <Style TargetType="{x:Type DataGridRow}">
+                            <Setter Property="FontWeight" Value="Normal" />
+                            <Setter Property="FontSize" Value="12"  />
+                        </Style>
+                    </DataGrid.RowStyle>
                 </DataGrid>
 
             </Grid>
@@ -70,9 +94,9 @@
                             </RadialGradientBrush>
                         </StackPanel.Background>
                     </StackPanel>
-                    <DataGrid x:Name="xGridTracks" Grid.Row="1" AutoGenerateColumns="False" AlternatingRowBackground="#FFDEEAFF" RowBackground="#FFAFCCFF" HorizontalGridLinesBrush="{x:Null}" VerticalGridLinesBrush="{x:Null}" GridLinesVisibility="None">
+                    <DataGrid x:Name="xGridTracks" Grid.Row="1" AutoGenerateColumns="False" AlternatingRowBackground="#FFDEEAFF" RowBackground="#FFAFCCFF" HorizontalGridLinesBrush="{x:Null}" VerticalGridLinesBrush="{x:Null}" GridLinesVisibility="None" IsReadOnly="True" FontSize="16">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding TrackId}" Header="Track" >
+                            <DataGridTextColumn Binding="{Binding TrackId}" Header="Track" IsReadOnly="True" >
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="HorizontalAlignment" Value="Center" />
@@ -81,6 +105,12 @@
                             </DataGridTextColumn>
                             <DataGridTextColumn Binding="{Binding Name}" Header="Name" Width="*"/>
                         </DataGrid.Columns>
+                        <DataGrid.RowStyle>
+                            <Style TargetType="{x:Type DataGridRow}">
+                                <Setter Property="FontWeight" Value="Normal" />
+                                <Setter Property="FontSize" Value="12"  />
+                            </Style>
+                        </DataGrid.RowStyle>
                     </DataGrid>
                 </Grid>
             </Border>
