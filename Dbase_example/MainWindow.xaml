@@ -57,18 +57,15 @@
                     </TextBox>
                 </Border>
 
-                <DataGrid x:Name="xArtists" RowStyle="{StaticResource GridRows}" Grid.Row="1" Grid.ColumnSpan="2" BorderBrush="{x:Null}" AutoGenerateColumns="False" AlternatingRowBackground="#FFDEEAFF" VerticalGridLinesBrush="#FFF3F3F3" HorizontalGridLinesBrush="{x:Null}" RowBackground="#FFAFCCFF" IsReadOnly="True" FontSize="16" >
+                <DataGrid x:Name="xArtists" RowStyle="{StaticResource GridRows}" Grid.Row="1" Grid.ColumnSpan="2" BorderBrush="{x:Null}" AutoGenerateColumns="False" AlternatingRowBackground="#FFDEEAFF" VerticalGridLinesBrush="#FFF3F3F3" HorizontalGridLinesBrush="{x:Null}" RowBackground="#FFAFCCFF" IsReadOnly="True" FontSize="16" SelectionChanged="xArtists_SelectionChanged" >
                     
                     <DataGrid.Columns>
                         <DataGridTextColumn  Binding="{Binding Name}" Header="Artists" Width="*" />
-                    </DataGrid.Columns>
-                    
-                   
-                    
+                    </DataGrid.Columns> 
                 </DataGrid>
-                <DataGrid x:Name="xAlbums" Grid.Row="2" Grid.ColumnSpan="2" BorderBrush="{x:Null}" AutoGenerateColumns="False" AlternatingRowBackground="#FFDEEAFF" VerticalGridLinesBrush="#FFF3F3F3" HorizontalGridLinesBrush="{x:Null}" RowBackground="#FFAFCCFF" IsReadOnly="True" FontSize="16">
+                <DataGrid x:Name="xAlbums" Grid.Row="2" Grid.ColumnSpan="2" BorderBrush="{x:Null}" AutoGenerateColumns="False" AlternatingRowBackground="#FFDEEAFF" VerticalGridLinesBrush="#FFF3F3F3" HorizontalGridLinesBrush="{x:Null}" RowBackground="#FFAFCCFF" IsReadOnly="True" FontSize="16" SelectionChanged="xAlbums_SelectionChanged">
                     <DataGrid.Columns>
-                        <DataGridTextColumn  Binding="{Binding Title}" Header="Album Title" Width="*" />
+                        <DataGridTextColumn  Binding="{Binding Title}" Header="Albums" Width="*" />
                     </DataGrid.Columns>
                     <DataGrid.RowStyle>
                         <Style TargetType="{x:Type DataGridRow}">
@@ -95,15 +92,8 @@
                         </StackPanel.Background>
                     </StackPanel>
                     <DataGrid x:Name="xGridTracks" Grid.Row="1" AutoGenerateColumns="False" AlternatingRowBackground="#FFDEEAFF" RowBackground="#FFAFCCFF" HorizontalGridLinesBrush="{x:Null}" VerticalGridLinesBrush="{x:Null}" GridLinesVisibility="None" IsReadOnly="True" FontSize="16">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding TrackId}" Header="Track" IsReadOnly="True" >
-                                <DataGridTextColumn.ElementStyle>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="HorizontalAlignment" Value="Center" />
-                                    </Style>
-                                </DataGridTextColumn.ElementStyle>
-                            </DataGridTextColumn>
-                            <DataGridTextColumn Binding="{Binding Name}" Header="Name" Width="*"/>
+                        <DataGrid.Columns>                            
+                            <DataGridTextColumn Binding="{Binding Name}" Header="Tracks" Width="*"/>
                         </DataGrid.Columns>
                         <DataGrid.RowStyle>
                             <Style TargetType="{x:Type DataGridRow}">
