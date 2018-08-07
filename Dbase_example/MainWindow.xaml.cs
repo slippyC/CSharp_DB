@@ -63,9 +63,15 @@ namespace Dbase_example
         private void xAlbums_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
-            {
-                int aData = ((sender as DataGrid).CurrentItem as AlbumData).AlbumId;
+            {                
+                AlbumData a = ((sender as DataGrid).CurrentItem as AlbumData);
+                int aData = a.AlbumId;
                 xGridTracks.ItemsSource = this.mLibrary.getTracks(aData);
+                AlbumArt art = new AlbumArt();
+                if (xArtists.SelectedIndex == -1)
+                    art.getMBIDToken(mArtists[0].Name, a.Title);
+                else
+                    art.getMBIDToken((xArtists.CurrentItem as ArtistData).Name, a.Title);
             }
             catch(System.NullReferenceException ex)
             {
