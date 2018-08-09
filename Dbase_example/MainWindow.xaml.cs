@@ -60,7 +60,7 @@ namespace Dbase_example
 
         }
 
-        private void xAlbums_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void xAlbums_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
             {                
@@ -69,9 +69,24 @@ namespace Dbase_example
                 xGridTracks.ItemsSource = this.mLibrary.getTracks(aData);
                 AlbumArt art = new AlbumArt();
                 if (xArtists.SelectedIndex == -1)
-                    art.getMBIDToken(mArtists[0].Name, a.Title);
+                {
+                    Task<BitmapImage> t = new Task<BitmapImage>(() => { return art.getFrontCover(mArtists[0].Name, a.Title); });
+                    t.Start();                   
+                    BitmapImage bm = await t;
+                    if (bm != null)
+                    {                        
+                        xAlbumPic.Source = bm;
+                    }
+                }
                 else
-                    art.getMBIDToken((xArtists.CurrentItem as ArtistData).Name, a.Title);
+                {
+                    string artist = (xArtists.SelectedItem as ArtistData).Name;
+                    Task<BitmapImage> t = new Task<BitmapImage>(() => { return art.getFrontCover(artist, a.Title); });
+                    t.Start();
+                    BitmapImage bm = await t;
+                    if (bm != null)
+                        xAlbumPic.Source = bm;
+                }
             }
             catch(System.NullReferenceException ex)
             {

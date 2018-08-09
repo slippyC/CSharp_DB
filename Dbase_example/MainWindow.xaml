@@ -9,17 +9,22 @@
     <Window.Resources>
         <Style x:Key="GridRows" TargetType="DataGridRow">
             <Setter Property="FontWeight" Value="Normal" />
-            <Setter Property="FontSize" Value="12"  />          
+            <Setter Property="FontSize" Value="12"  />
         </Style>
     </Window.Resources>
 
 
     <Grid Margin="0,0,0,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="257*"/>
+            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="530*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="25" />
             <RowDefinition Height="400*"/>
         </Grid.RowDefinitions>
-        <Menu Height="38" Margin="0,0,0,0" VerticalAlignment="Top" UseLayoutRounding="False" IsHitTestVisible="True"  Grid.Row="0" Grid.Column="0" Grid.RowSpan="2">
+        <Menu Height="38" Margin="0,0,0,0" VerticalAlignment="Top" UseLayoutRounding="False" IsHitTestVisible="True"  Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="3">
             <Menu.Background>
                 <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
                     <GradientStop Color="#FFF6F6F6" Offset="0.25"/>
@@ -33,7 +38,7 @@
             </MenuItem>
         </Menu>
 
-        <Grid Margin="0,0,0,0" Grid.Row="1" Grid.Column="0" Background="White">
+        <Grid Margin="0,0,0,0" Grid.Row="1" Grid.Column="0" Background="White" Grid.ColumnSpan="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*" MaxWidth="300" />
                 <ColumnDefinition Width="3*" />
@@ -58,10 +63,10 @@
                 </Border>
 
                 <DataGrid x:Name="xArtists" RowStyle="{StaticResource GridRows}" Grid.Row="1" Grid.ColumnSpan="2" BorderBrush="{x:Null}" AutoGenerateColumns="False" AlternatingRowBackground="#FFDEEAFF" VerticalGridLinesBrush="#FFF3F3F3" HorizontalGridLinesBrush="{x:Null}" RowBackground="#FFAFCCFF" IsReadOnly="True" FontSize="16" SelectionChanged="xArtists_SelectionChanged" >
-                    
+
                     <DataGrid.Columns>
                         <DataGridTextColumn  Binding="{Binding Name}" Header="Artists" Width="*" />
-                    </DataGrid.Columns> 
+                    </DataGrid.Columns>
                 </DataGrid>
                 <DataGrid x:Name="xAlbums" Grid.Row="2" Grid.ColumnSpan="2" BorderBrush="{x:Null}" AutoGenerateColumns="False" AlternatingRowBackground="#FFDEEAFF" VerticalGridLinesBrush="#FFF3F3F3" HorizontalGridLinesBrush="{x:Null}" RowBackground="#FFAFCCFF" IsReadOnly="True" FontSize="16" SelectionChanged="xAlbums_SelectionChanged">
                     <DataGrid.Columns>
@@ -90,9 +95,19 @@
                                 <GradientStop Color="#FF404040"/>
                             </RadialGradientBrush>
                         </StackPanel.Background>
+                        <Image x:Name="xAlbumPic" Stretch="UniformToFill" ScrollViewer.VerticalScrollBarVisibility="Disabled" Margin="196,5,195,5" Height="200" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center" VerticalAlignment="Center" Panel.ZIndex="1" Width="200">
+                            <Image.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform/>
+                                    <SkewTransform/>
+                                    <RotateTransform Angle="0.87"/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </Image.RenderTransform>
+                        </Image>
                     </StackPanel>
                     <DataGrid x:Name="xGridTracks" Grid.Row="1" AutoGenerateColumns="False" AlternatingRowBackground="#FFDEEAFF" RowBackground="#FFAFCCFF" HorizontalGridLinesBrush="{x:Null}" VerticalGridLinesBrush="{x:Null}" GridLinesVisibility="None" IsReadOnly="True" FontSize="16">
-                        <DataGrid.Columns>                            
+                        <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Name}" Header="Tracks" Width="*"/>
                         </DataGrid.Columns>
                         <DataGrid.RowStyle>
