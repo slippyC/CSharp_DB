@@ -49,10 +49,15 @@ namespace Dbase_example
 
         private void xArtists_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {                      
-            int aData = ((sender as DataGrid).CurrentItem as ArtistData).ArtistId;
-            this.mAlbums = this.mLibrary.getAlbums(aData);
+            artistChanged(((sender as DataGrid).CurrentItem as ArtistData).ArtistId);            
+        }
+
+        private void artistChanged(int ArtistId)
+        {
+            xAlbumPic.Source = null;
+            this.mAlbums = this.mLibrary.getAlbums(ArtistId);
             xAlbums.ItemsSource = this.mAlbums;
-            if(this.mAlbums.Count > 0)
+            if (this.mAlbums.Count > 0)
             {
                 xGridTracks.ItemsSource = this.mLibrary.getTracks(this.mAlbums[0].AlbumId);
                 setAlbumArt();
@@ -92,18 +97,28 @@ namespace Dbase_example
             BitmapImage bm = await t;
             if (bm != null)
                 xAlbumPic.Source = bm;
-        }
-
-        private void xFilter_KeyDown(object sender, KeyEventArgs e)
-        {
-            
-
-        }       
+        }      
 
         // EventHandler for mArtists to update xArtists when the collection changes
         private void collectionChanged(object sender,NotifyCollectionChangedEventArgs e)
         {
-            xArtists.ItemsSource = this.mArtists;
-        }       
+            xArtists.ItemsSource = this.mArtists;            
+        }
+
+        // Filter Artists
+        private void xFilter_KeyUp(object sender, KeyEventArgs e)
+        {
+            xAlbumPic.Source = null;
+            mArtists = new ObservableCollection<ArtistData>(mLibrary.getArtists(xFilter.Text + '%'));
+            mArtists.CollectionChanged += collectionChanged;
+            xArtists.ItemsSource = mArtists;
+            if(mArtists.Count > 0)
+                artistChanged(mArtists[0].ArtistId);
+            else
+            {                
+                xAlbums.ItemsSource = null;
+                xGridTracks.ItemsSource = null;
+            }           
+        }
     }
 }

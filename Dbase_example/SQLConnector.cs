@@ -33,13 +33,14 @@ namespace Dbase_example
             List<ArtistData> ret = new List<ArtistData>();
             SQLiteDataReader data;
             if (artist == "")
-                data = this.exeCommand("SELECT * from Artist");
+                data = this.exeCommand("SELECT * FROM Artist");
             else
-                data = this.exeCommand($"SELECT * from Artist WHERE Name LIKE {artist}");// Filter Artist by name
+                data = this.exeCommand($"SELECT * FROM Artist WHERE Name LIKE \'{artist}\'");// Filter Artist by name
 
             while (data.Read())
             {            
                 ret.Add(new ArtistData { Name = data.GetValue(1).ToString(), ArtistId = data.GetInt32(0) });
+                Console.WriteLine(data.GetValue(1));
             }
             this.mSqlite.Close();
             return ret;

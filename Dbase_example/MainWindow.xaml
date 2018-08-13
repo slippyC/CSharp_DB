@@ -58,7 +58,7 @@
 
                 <Label Grid.Row="0" Grid.Column="0" Foreground="Black" BorderBrush="#00D69E26" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="16" Padding="5,5,0,5" Content="Artist:"/>
                 <Border BorderThickness="1" CornerRadius="5"  Grid.Column="1" Margin="5,10,10,10" BorderBrush="#FF4F7DCF" Padding="3">
-                    <TextBox x:Name="xFilter" BorderThickness="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" KeyDown="xFilter_KeyDown"/>
+                    <TextBox x:Name="xFilter" BorderThickness="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" KeyUp="xFilter_KeyUp"/>
                 </Border>
 
                 <DataGrid x:Name="xArtists" RowStyle="{StaticResource GridRows}" Grid.Row="1" Grid.ColumnSpan="2" BorderBrush="{x:Null}" AutoGenerateColumns="False" AlternatingRowBackground="#FFDEEAFF" VerticalGridLinesBrush="#FFF3F3F3" HorizontalGridLinesBrush="{x:Null}" RowBackground="#FFAFCCFF" IsReadOnly="True" FontSize="16" SelectionChanged="xArtists_SelectionChanged" SelectionMode="Single" >
