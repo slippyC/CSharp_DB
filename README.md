@@ -6,6 +6,7 @@ C# example using "Chinook" SQLite DB to show various SQL queries.
 Secondary:
 1) JSON requests of remote API's and then deserialization into Objects
 2) Image loading from remote source
+3) Multithreading via Tasks/Async/Await, since this seems to be the "new" way.
 
 Known Issues:<br>
 1) Not all Cover Art, that is remotely queried, is easily queryable.  There are quite a few reasons for this, but mainly because of naming conventions used for Album titles.  There is definitely no perfect solution, only multiple half working solutions that will have to be weaved together.
