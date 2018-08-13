@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data.SQLite;
 using System.IO;
+using System;
 
 namespace Dbase_example
 {
@@ -17,12 +18,28 @@ namespace Dbase_example
 
         public List<ArtistData> getArtists()
         {
+            return this.getArtistData();
+        }
+
+        // Artist Filtered - Use SQL wildcards for name(% and _)
+        public List<ArtistData> getArtists(string artist)
+        {
+            return this.getArtistData(artist);
+        }
+
+        private List<ArtistData> getArtistData(string artist = "")
+        {
             this.mSqlite = this.openConn();
             List<ArtistData> ret = new List<ArtistData>();
-            SQLiteDataReader data = this.exeCommand("SELECT * from Artist");
+            SQLiteDataReader data;
+            if (artist == "")
+                data = this.exeCommand("SELECT * from Artist");
+            else
+                data = this.exeCommand($"SELECT * from Artist WHERE Name LIKE {artist}");// Filter Artist by name
+
             while (data.Read())
-            {
-                ret.Add(new ArtistData { Name = (string)data.GetValue(1), ArtistId = data.GetInt32(0) });
+            {            
+                ret.Add(new ArtistData { Name = data.GetValue(1).ToString(), ArtistId = data.GetInt32(0) });
             }
             this.mSqlite.Close();
             return ret;
@@ -53,9 +70,9 @@ namespace Dbase_example
             {
                 ret.Add(new TrackData
                 { TrackId = data.GetInt32(0), Name = (string)data.GetValue(1), Time = data.GetInt32(2) }
-                );
+                );                
             }
-            this.mSqlite.Close();
+            this.mSqlite.Close();           
 
             return ret;
         }
@@ -65,7 +82,7 @@ namespace Dbase_example
         {
             this.mSqlite = this.openConn();
             SQLiteDataReader data = this.exeCommand("SELECT Genre.Name FROM Genre " +
-                   "INNER JOIN Track ON Genre.Id = Track.GenreId " +
+                   "INNER JOIN Track ON Genre.GenreId = Track.GenreId " +
                    $"WHERE Track.AlbumId = {AlbumId.ToString()} AND Track.TrackId = {TrackId.ToString()}");
             data.Read();
             string ret = data.GetValue(0).ToString();

@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
 
 namespace Dbase_example
 {
@@ -24,7 +23,7 @@ namespace Dbase_example
     public partial class MainWindow : Window
     {
         private SQLConnector mLibrary;
-        private List<ArtistData> mArtists;
+        private ObservableCollection<ArtistData> mArtists;
         private List<AlbumData> mAlbums;
         private List<TrackData> mTracks;
 
@@ -32,12 +31,16 @@ namespace Dbase_example
         {
             InitializeComponent();
             this.mLibrary = new SQLConnector();
-            mArtists = this.mLibrary.getArtists();
+            mArtists = new ObservableCollection<ArtistData>(this.mLibrary.getArtists());
+            // Event raised when collection changes
+            mArtists.CollectionChanged += collectionChanged;
             xArtists.ItemsSource = this.mArtists;
             this.mAlbums = this.mLibrary.getAlbums(this.mArtists[0].ArtistId);            
             this.mTracks = this.mLibrary.getTracks(this.mAlbums[0].AlbumId);
             xAlbums.ItemsSource = this.mAlbums;
             xGridTracks.ItemsSource = this.mTracks;
+            setAlbumArt();
+            
         }
         private void xExit_Click(object sender, RoutedEventArgs e)
         {
@@ -52,48 +55,55 @@ namespace Dbase_example
             if(this.mAlbums.Count > 0)
             {
                 xGridTracks.ItemsSource = this.mLibrary.getTracks(this.mAlbums[0].AlbumId);
+                setAlbumArt();
             }
             else
             {
                 xGridTracks.ItemsSource = null;
-            }    
-
+            }
         }
 
-        private async void xAlbums_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void xAlbums_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            try
-            {                
-                AlbumData a = ((sender as DataGrid).CurrentItem as AlbumData);
-                int aData = a.AlbumId;
-                xGridTracks.ItemsSource = this.mLibrary.getTracks(aData);
-                AlbumArt art = new AlbumArt();
-                if (xArtists.SelectedIndex == -1)
-                {
-                    Task<BitmapImage> t = new Task<BitmapImage>(() => { return art.getFrontCover(mArtists[0].Name, a.Title); });
-                    t.Start();                   
-                    BitmapImage bm = await t;
-                    if (bm != null)
-                    {                        
-                        xAlbumPic.Source = bm;
-                    }
-                }
-                else
-                {
-                    string artist = (xArtists.SelectedItem as ArtistData).Name;
-                    Task<BitmapImage> t = new Task<BitmapImage>(() => { return art.getFrontCover(artist, a.Title); });
-                    t.Start();
-                    BitmapImage bm = await t;
-                    if (bm != null)
-                        xAlbumPic.Source = bm;
-                }
-            }
-            catch(System.NullReferenceException ex)
-            {
-                xGridTracks.ItemsSource = null;
-            }
-           
-            
+            setAlbumArt();
         }
+
+        private async void setAlbumArt()
+        {
+            xAlbumPic.Source = null;
+            if (mAlbums.Count < 1)
+                return;
+
+            string artist = "";
+            if (xArtists.SelectedIndex == -1)
+                artist = mArtists[0].Name;
+            else
+                artist = (xArtists.SelectedItem as ArtistData).Name;
+
+            string album = "";
+            if (xAlbums.SelectedIndex == -1)
+                album = mAlbums[0].Title;
+            else
+                album = (xAlbums.SelectedItem as AlbumData).Title;
+
+            AlbumArt art = new AlbumArt();
+            Task<BitmapImage> t = new Task<BitmapImage>(() => { return art.getFrontCover(artist, album); });
+            t.Start();
+            BitmapImage bm = await t;
+            if (bm != null)
+                xAlbumPic.Source = bm;
+        }
+
+        private void xFilter_KeyDown(object sender, KeyEventArgs e)
+        {
+            
+
+        }       
+
+        // EventHandler for mArtists to update xArtists when the collection changes
+        private void collectionChanged(object sender,NotifyCollectionChangedEventArgs e)
+        {
+            xArtists.ItemsSource = this.mArtists;
+        }       
     }
 }
