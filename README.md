@@ -12,7 +12,7 @@ C# example using "Chinook" SQLite DB to show various SQL queries.
 1) Not all Cover Art, that is remotely queried, is easily queryable.  There are quite a few reasons for this, but mainly because of naming conventions used for Album titles.  There is definitely no perfect solution, only multiple half working solutions that will have to be weaved together.
 2) Images that are pulled from remote location take time to load.  Will either implement a loading spinner or create new table with byte[] to hold image data.  I have attempted to pull a thumbnail version instead of full version of the cover art.  Depending on internet connection, making multiple requests to server(at least coverartarchive.org) takes about same amount of time.  The full image, is of course, better resolution as well.  At this point haven't decided if full or thumbnail image will be final implementation.
 3) Currently Artist Information is not displayed below cover art.  This is a very easy fix, just having the time(in my spare time) to implement.
-4) Artist Filtering function does not work.  Deciding whether to use multiple lists or just re-querying database for information. Probably will re-query, since it is more scalable for people who look at this and have larger databases(don't want to take up so much memory).
+4) <b>UPDATED</b> Artist Filtering function now works, but still some issues.  Used re-querying database instead of storing in list and filtering, because of issues mentioned before(keeping memory usage low).  Noticable issues are mainly related to latency with remote loading of images. It takes a second for album art to change, so visually the wrong album art could be shown briefly.
 
 <b>Reasons for choosing SQLite:</b><br>
 1) Portability
