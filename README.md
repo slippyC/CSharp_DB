@@ -18,6 +18,9 @@ C# example using "Chinook" SQLite DB to show various SQL queries.
 1) Portability
 2) Do not have to setup Server to serve up SQL queries
 
+<b>Requirements:</b>
+1) Use NuGet to install Newtonsoft.Json 
+
 <b>WARNINGS:</b><br>
 This code DOES NOT contain complete error handling.  Feel free to use sections of this code anyway you may choose.  It is here for learning purposes.  While there is no intent or knowledge of malicious code, use at your own risk.
 
