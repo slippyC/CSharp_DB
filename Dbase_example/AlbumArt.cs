@@ -29,7 +29,7 @@ namespace Dbase_example
         
         public BitmapImage getFrontCover(string artist, string album)
         {
-
+            // An attempt to try and increase returns by deleting things such as disc 1 from title
             if(album.Contains("(") || album.Contains("["))
             {
                 if (album.Contains("("))
