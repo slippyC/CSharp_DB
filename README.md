@@ -15,3 +15,6 @@ Reasons for choosing SQLite:<br>
 2) Do not have to setup Server to serve up SQL queries
 
 This readme wouldn't be complete without thanking the people at Musicbrainz.org and Coverartarchive.org.  Without their work, the currently half, working code wouldn't be possible at all.  Well at least the pulling of cover art from some source.
+
+WARNINGS:<br>
+This code DOES NOT contain complete error handling.  Feel free to use sections of this code anyway you may choose.  It is here for learning purposes.  While there is no intent or knowledge of malicious code, use at your own risk.
